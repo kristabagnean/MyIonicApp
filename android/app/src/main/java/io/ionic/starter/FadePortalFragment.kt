@@ -7,32 +7,26 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
 import com.getcapacitor.WebViewListener
-import io.ionic.portals.Portal
 import io.ionic.portals.PortalFragment
 
-class FadePortalFragment : PortalFragment {
-    private var fadeView: View? = null
+class FadePortalFragment: PortalFragment() {
+    private lateinit var fadeView: View
 
     private var duration: Long = 500
     private var colorResource = R.color.white
 
-    constructor() : super() {
+    init {
         addFadeListener()
     }
-
-    constructor(portal: Portal?) : super(portal) {
-        addFadeListener()
-    }
-
     private fun addFadeListener() {
         addWebViewListener(object : WebViewListener() {
             override fun onPageLoaded(webView: WebView) {
-                fadeView!!.animate()
+                fadeView.animate()
                     .alpha(0f)
                     .setDuration(duration)
                     .setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            fadeView!!.visibility = View.GONE
+                            fadeView.visibility = View.GONE
                         }
                     })
             }
@@ -42,14 +36,14 @@ class FadePortalFragment : PortalFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (bridge != null) {
-            this.fadeView = View(activity)
-            fadeView!!.id = View.generateViewId()
+        getBridge()?.let {  bridge->
+            fadeView = View(activity)
+            fadeView.id = View.generateViewId()
 
-            fadeView!!.layoutParams = bridge!!.webView.layoutParams
-            fadeView!!.setBackgroundResource(colorResource)
-            bridge!!.webView.addView(fadeView, 0)
-            fadeView!!.bringToFront()
+            fadeView.layoutParams = bridge.webView.layoutParams
+            fadeView.setBackgroundResource(colorResource)
+            bridge.webView.addView(fadeView, 0)
+            fadeView.bringToFront()
         }
     }
 
@@ -71,7 +65,6 @@ class FadePortalFragment : PortalFragment {
     }
 
     companion object {
-        @JvmOverloads
         fun newInstance(
             startDir: String?,
             colorResource: Int = R.color.white,

@@ -7,30 +7,26 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="android.app.cristina.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:name="io.ionic.starter.MainFragment"
+        android:label="Main Fragment"
+        tools:layout="@layout/main_fragment">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_full_app"
+            app:destination="@id/FullAppFragment" />
         <action
-            android:id="@+id/action_FirstFragment_to_IonicFragment"
-            app:destination="@id/IonicFragment" />
+            android:id="@+id/action_one_page"
+            app:destination="@id/OnePageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/IonicFragment"
-        android:name="android.app.cristina.IonicFragment"
-        android:label="@string/ionic_fragment_label"
-        tools:layout="@layout/fragment_ionic" />
+        android:id="@+id/FullAppFragment"
+        android:name="io.ionic.starter.FullAppFragment"
+        android:label="Full App"
+        tools:layout="@layout/full_app_fragment" />
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="android.app.cristina.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+        android:id="@+id/OnePageFragment"
+        android:name="io.ionic.starter.OnePageFragment"
+        android:label="One Page Fragment"
+        tools:layout="@layout/one_page_fragment">
     </fragment>
 </navigation>

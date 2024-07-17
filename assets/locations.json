@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "Austin",
+        "slug": "austin"
+    },
+    {
+        "id": 2,
+        "name": "Boston",
+        "slug": "boston"
+    },
+    {
+        "id": 3,
+        "name": "Los Angeles",
+        "slug": "los-angeles"
+    }
+]

@@ -1,4 +1,4 @@
-package io.ionic.starter
+package io.ionic.starter.models
 
 data class Location(
     val id: Int,
