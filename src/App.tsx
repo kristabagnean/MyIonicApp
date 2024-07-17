@@ -32,21 +32,29 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import AppRouter from "./commons/components/Router/AppRouter";
+import AppRouter from "./common/components/Router/AppRouter";
 import { useEffect } from "react";
+import ConfigContextProvider from "./common/providers/ConfigProvider";
+import { queryClient } from "./common/utils/query-client";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 setupIonicReact();
 
 export interface AppProps {
-  context ? : {
-    startingRoute : string;
-  }|null;
+  context?: {
+    startingRoute: string;
+  } | null;
 }
 
-
-const App: React.FC<AppProps> = ({context}) => (
+const App: React.FC<AppProps> = ({ context }) => (
   <IonApp>
-    <AppRouter context={context} />
+    <ConfigContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppRouter context={context} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ConfigContextProvider>
   </IonApp>
 );
 

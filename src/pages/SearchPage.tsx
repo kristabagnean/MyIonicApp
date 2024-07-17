@@ -1,6 +1,6 @@
 import React from "react";
 import { IonContent, IonPage } from "@ionic/react";
-import Header from "../commons/components/Header";
+import Header from "../common/components/Header";
 
 const SearchPage = () => (
   <IonPage>
