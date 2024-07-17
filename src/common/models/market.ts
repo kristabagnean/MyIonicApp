@@ -11,3 +11,10 @@ export type Market = {
   foodPreorderAvailability: string;
   isMaxSafetyOperation: boolean;
 };
+
+export const enum MarketStatus {
+  Open = "OPEN",
+  PreOpen = "PRE_OPEN",
+  Closed = "CLOSED",
+  Unknown = "UNKNOWN",
+}

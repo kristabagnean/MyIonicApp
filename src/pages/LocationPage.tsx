@@ -1,12 +1,12 @@
-import { IonContent, IonPage, IonList, IonItem, IonLabel } from "@ionic/react";
+import { IonContent, IonPage, IonList, IonItem, IonLabel, IonNote } from "@ionic/react";
 import Header from "../common/components/Header";
 import { publishItemSelect, publishNavigateBackMessage } from "../pub-sub";
-import { useEffect, useState } from "react";
-import { Location } from "../common/models/Location";
 import { useGetMarkets } from "../common/api/useGetMarkets";
+import { MarketStatus } from "../common/models/market";
+
 const LocationPage = () => {
-  const [locations, setTodos] = useState<Location[]>([]);
   const { data: markets = [], isLoading } = useGetMarkets();
+  
   return (
     <IonPage>
       <Header
@@ -16,13 +16,15 @@ const LocationPage = () => {
         defaultHref="/tabs"
       />
       <IonContent fullscreen>
-        <IonList>
+        <IonList lines="full">
           {markets.map((location, i) => (
             <IonItem
               onClick={() => publishItemSelect(location)}
               key={location.id}
+                 disabled={location.status !== MarketStatus.Open}
             >
               <IonLabel>{location.name}</IonLabel>
+              <IonNote slot="end" hidden={location.status === MarketStatus.Open} > Comming soon</IonNote>
             </IonItem>
           ))}
         </IonList>

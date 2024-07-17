@@ -26,7 +26,6 @@ const Header = ({
   onClickListener = undefined
 }: HeaderProps): JSX.Element => {
   let imageLogoUrl = "/favicon.png";
-  console.log( onClickListener !== undefined);
   return (
     <IonHeader>
       <IonToolbar>
