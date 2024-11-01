@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        sharedViewModel.setLocation("unknown")
+        // sharedViewModel.setLocation("unknown")
 
     }
 
@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.nav_host_fragment_content_main).popBackStack()
         }
         sharedViewModel.selectLocationLiveEvent.observe(this) { location ->
-            sharedViewModel.setLocation(location.name)
-            findNavController(R.id.nav_host_fragment_content_main).popBackStack()
+           val action= OnePageFragmentDirections.actionLocationDetails(location.name)
+            findNavController(R.id.nav_host_fragment_content_main).navigate(action)
         }
     }
 

@@ -5,7 +5,7 @@ import { useGetMarkets } from "../common/api/useGetMarkets";
 import { MarketStatus } from "../common/models/market";
 
 const LocationPage = () => {
-  const { data: markets = [], isLoading } = useGetMarkets();
+  const { data: markets = [], isLoading, error } = useGetMarkets();
   
   return (
     <IonPage>

@@ -4,10 +4,12 @@ import { Redirect, Route } from "react-router";
 import TabNavigation from "./TabNavigation";
 import LocationPage from "../../../pages/LocationPage";
 import { AppProps } from "../../../App";
+import DetectLocation from "../../../pages/DetectLocation";
 
 const AppRouter = ({ context }: AppProps): JSX.Element => {
   return (
     <IonReactRouter>
+      
       <IonRouterOutlet>
         {context?.startingRoute ? (
           <Route exact path="/">
@@ -27,6 +29,8 @@ const AppRouter = ({ context }: AppProps): JSX.Element => {
         )}
 
         <Route path="/tabs/location" component={LocationPage} />
+        <Route path="/tabs/detect-location" component={DetectLocation} />
+  
       </IonRouterOutlet>
     </IonReactRouter>
   );

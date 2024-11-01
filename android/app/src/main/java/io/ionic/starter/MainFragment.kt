@@ -34,9 +34,13 @@ class MainFragment : Fragment() {
         binding.buttonOnePage.setOnClickListener {
             findNavController().navigate(R.id.action_one_page)
         }
-        sharedViewModel.selectedLocationName.observe(viewLifecycleOwner) { locationName ->
-            binding.selectedLocation.text = locationName
+        binding.buttonGetLocationPage.setOnClickListener {
+            findNavController().navigate(R.id.action_detect_location_page)
         }
+//        sharedViewModel.selectedLocationName.observe(viewLifecycleOwner) { locationName ->
+//           // binding.selectedLocation.text = locationName
+//            findNavController().navigate(R.id.action_location_details)
+//        }
     }
 
 

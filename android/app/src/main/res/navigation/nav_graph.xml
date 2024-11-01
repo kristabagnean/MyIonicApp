@@ -17,6 +17,10 @@
         <action
             android:id="@+id/action_one_page"
             app:destination="@id/OnePageFragment" />
+        <action
+            android:id="@+id/action_detect_location_page"
+            app:destination="@id/DetectLocationFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/FullAppFragment"
@@ -28,5 +32,23 @@
         android:name="io.ionic.starter.OnePageFragment"
         android:label="One Page Fragment"
         tools:layout="@layout/one_page_fragment">
+        <action
+            android:id="@+id/action_location_details"
+            app:destination="@id/LocationDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/LocationDetailsFragment"
+        android:name="io.ionic.starter.LocationDetailsFragment"
+        android:label="Details Fragment"
+        tools:layout="@layout/location_details_fragment">
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/DetectLocationFragment"
+        android:name="io.ionic.starter.LocationDetectionFragment"
+        android:label="Detect Location Fragment"
+        tools:layout="@layout/detect_location_fragment">
     </fragment>
 </navigation>

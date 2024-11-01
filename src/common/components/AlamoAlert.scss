@@ -1,0 +1,19 @@
+ion-alert.custom-alert {
+    --backdrop-opacity: 0.5;
+    .alert-button-group {
+        padding: 8px;
+        flex-direction: column;
+        width: 90.33%;
+    
+      }
+  }
+
+
+  .custom-alert .alert-button :nth-child(2) {
+    // background-color: #fcba03;
+     color: #0317fc;
+   }
+//   .custom-alert .alert-button :first-child {
+//    background-color: #fcba03;
+//     color: #fcba03;
+//   }

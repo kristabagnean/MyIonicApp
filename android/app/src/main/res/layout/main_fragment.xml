@@ -21,7 +21,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_full_app" />
-
+    <Button
+        android:id="@+id/button_get_location_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detect Location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_one_page" />
     <TextView
         android:id="@+id/selectedLocation"
         android:layout_width="wrap_content"
@@ -29,5 +36,5 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_one_page" />
+        app:layout_constraintTop_toBottomOf="@id/button_get_location_page" />
 </androidx.constraintlayout.widget.ConstraintLayout>

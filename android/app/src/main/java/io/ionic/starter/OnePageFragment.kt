@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
+import io.ionic.portals.PortalFragment
 import io.ionic.portals.PortalManager
 import io.ionic.portals.PortalsPlugin
 import io.ionic.portals.PortalsPubSub
@@ -32,15 +33,6 @@ class OnePageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val initialContext = HashMap<String, String>()
-        initialContext["startingRoute"] = "/tabs/location"
-        addPortalSubscriber()
-        PortalManager.newPortal("one")
-            .setStartDir("public")
-            .setInitialContext(initialContext)
-            .setPortalFragmentType(FadePortalFragment::class.java)
-            .addPluginInstance(PortalsPlugin(pubSub))
-            .create()
         _binding = OnePageFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,6 +40,18 @@ class OnePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).supportActionBar?.hide()
+        val initialContext = HashMap<String, String>()
+        initialContext["startingRoute"] = "/tabs/location"
+        addPortalSubscriber()
+        val portal = PortalManager.newPortal("one")
+            .setStartDir("public")
+            .setInitialContext(initialContext)
+            .setPortalFragmentType(FadePortalFragment::class.java)
+            .addPluginInstance(PortalsPlugin(pubSub))
+            .create()
+        val fragmentManager = childFragmentManager
+        val portalFragment = PortalFragment(portal)
+        fragmentManager.beginTransaction().add(R.id.my_portal, portalFragment).commit()
     }
 
     private fun addPortalSubscriber() {

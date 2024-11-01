@@ -2,5 +2,8 @@
  * React Query cache keys.
  */
 export enum QueryKey {
-  Markets = 'Markets',
+  Markets = "Markets",
+  NearestMarket = "NearestMarket",
+  CurrentPosition = "CurrentPosition",
+  LocationPermissionStatus = "LocationPermissionStatus",
 }
