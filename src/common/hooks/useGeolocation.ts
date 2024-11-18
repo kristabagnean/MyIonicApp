@@ -28,6 +28,7 @@ export const useGeolocation = () => {
   const checkPermissions = useCallback(async () => {
     try {
       const permissions = await Geolocation.checkPermissions();
+      console.log('check permissions callback', permissions.coarseLocation);
       setPermissionStatus(permissions.coarseLocation);
     } catch (error) {
       displayToast('Location services are disabled on your mobile device.');
@@ -39,6 +40,7 @@ export const useGeolocation = () => {
   const requestPermissions = useCallback(async () => {
     try {
       const permissions = await Geolocation.requestPermissions();
+      console.log('request permissions callback', permissions.coarseLocation);
       setPermissionStatus(permissions.coarseLocation);
     } catch (error) {
       displayToast('Location services are disabled on your mobile device.');

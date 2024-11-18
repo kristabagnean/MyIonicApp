@@ -45,10 +45,10 @@ const DetectLocation = () => {
       position: "middle",
     });
   };
-  const getGeolocationPermission = async () => {
-    const permissions = await Geolocation.checkPermissions();
-    console.log(" in the screen permissions status is ", permissions.coarseLocation);
-  };
+  // const getGeolocationPermission = async () => {
+  //   const permissions = await Geolocation.checkPermissions();
+  //   console.log(" in the screen permissions status is ", permissions.coarseLocation);
+  // };
   AlamoApp.addListener('backButton', () => {
     if (router.canGoBack()) {
       router.goBack();
@@ -63,7 +63,7 @@ const DetectLocation = () => {
   AlamoApp.addListener('resume', () => {
     console.log('App resume');
     AlamoApp.attachBackButtonListener();
-    getGeolocationPermission();
+   // getGeolocationPermission();
   });
 
 

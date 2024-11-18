@@ -19,30 +19,45 @@ const UseCurrentLocationButton = (): JSX.Element => {
   const [showToast] = useIonToast();
   const [isConfirmationAlertOpen, setConfirmationAlertOpen] = useState(false);
   const [isSettingsAlertOpen, setSettingsAlertOpen] = useState(false);
-  const [initLocationFlow, setInitLocationFlow] = useState(false);
   const [wasButtonClicked, setWasButtonClicked] = useState(false);
+  const [wasSettingsOpen, setSettingsIsOpen] = useState(false);
 
-  const displayToast = useCallback(
-    (mess: string) => {
-      showToast({
-        message: mess,
-        duration: 1500,
-        position: "bottom",
-      });
-    },
-    [showToast]
-  );
-  const handleCurrentLocation = () => {
-    setInitLocationFlow(true);
-    setWasButtonClicked(true);
-    requestPermissions();
-    // checkPermissions();
-  };
   useEffect(() => {
+    //check permissions first time when opening the page
     checkPermissions();
-    console.log("check permission in useEffect ");
+    console.log("check permission in useEffect status is ");
   }, [checkPermissions]);
 
+  const handleCurrentLocation = () => {
+    console.log(
+      "button is clicked and status is ",
+      permissionStatus
+    );
+    if (permissionStatus === PermissionsStatus.Denied && wasSettingsOpen) {
+      console.log("requesting permission");
+     // setWasButtonClicked(true);
+      requestPermissions();
+      setSettingsIsOpen(false);
+      //
+    } else {
+      console.log("setting was button clicked to true");
+      setWasButtonClicked(true);
+    }
+  };
+
+
+  AlamoApp.addListener("resume", () => {
+    // console.log("useCurrentLocationButton App resume");
+    if (wasSettingsOpen) {
+      checkPermissions();
+      console.log(
+        "on resume, settings was open, check the permission",
+        permissionStatus
+      );
+    }
+    // setWasButtonClicked(false);
+    // getGeolocationPermission();
+  });
   /**
    * @param {boolean} initLocationFlow  is a state variable used to control the initiation of
    * a location retrieval process. When initLocationFlow is true, it indicates that the process to
@@ -50,7 +65,12 @@ const UseCurrentLocationButton = (): JSX.Element => {
    **/
   useEffect(() => {
     if (permissionStatus) {
-      console.log("permission status is ", permissionStatus);
+      console.log(
+        "permission status is ",
+        permissionStatus,
+        "wasButtonClicked",
+        wasButtonClicked
+      );
       if (wasButtonClicked) {
         switch (permissionStatus) {
           case PermissionsStatus.Prompt:
@@ -76,12 +96,16 @@ const UseCurrentLocationButton = (): JSX.Element => {
             //   setInitLocationFlow(false);
             // }
             setSettingsAlertOpen(true);
-            setInitLocationFlow(false);
             break;
         }
       }
     }
-  }, [permissionStatus, requestPermissions, getCurrentPosition,wasButtonClicked]);
+  }, [
+    permissionStatus,
+    requestPermissions,
+    getCurrentPosition,
+    wasButtonClicked
+  ]);
   useEffect(() => {
     console.log("location in small component", location?.coords.latitude);
   }, [location]);
@@ -103,6 +127,7 @@ const UseCurrentLocationButton = (): JSX.Element => {
         }}
         negativeButtonListener={() => {
           setConfirmationAlertOpen(false);
+          setWasButtonClicked(false);
         }}
       />
       <AlamoAlert
@@ -113,10 +138,13 @@ const UseCurrentLocationButton = (): JSX.Element => {
         negativeText="Decline"
         positiveButtonListener={() => {
           setSettingsAlertOpen(false);
+          //setWasButtonClicked(false);
+          setSettingsIsOpen(true);
           AlamoApp.openSettings();
         }}
         negativeButtonListener={() => {
           setSettingsAlertOpen(false);
+          setWasButtonClicked(false);
         }}
       />
     </>
