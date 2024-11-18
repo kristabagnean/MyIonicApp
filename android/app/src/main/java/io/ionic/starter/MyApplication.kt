@@ -9,7 +9,7 @@ class MyApplication : Application() {
         super.onCreate()
         PortalManager.register(BuildConfig.apiKey)
 //        if (BuildConfig.DEBUG) {
-//            Timber.plant(Timber.DebugTree())
+            Timber.plant(Timber.DebugTree())
 //        }
     }
 

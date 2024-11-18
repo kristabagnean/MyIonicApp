@@ -18,6 +18,7 @@ import io.ionic.portals.SubscriptionResult
 import io.ionic.starter.databinding.DetectLocationFragmentBinding
 import io.ionic.starter.databinding.OnePageFragmentBinding
 import io.ionic.starter.models.Location
+import io.ionic.starter.plugins.AlamoAppPlugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,8 +42,8 @@ class LocationDetectionFragment :Fragment(){
             .setInitialContext(initialContext)
             .setPortalFragmentType(FadePortalFragment::class.java)
             .addPlugin(GeolocationPlugin::class.java)
-            .addPlugin(BackgroundGeolocation::class.java)
-            .addPlugin(AppPlugin::class.java)
+          //  .addPlugin(BackgroundGeolocation::class.java)
+            .addPlugin(AlamoAppPlugin::class.java)
             //.addPlugin(AppPlugin::class.java)
             .create()
         _binding = DetectLocationFragmentBinding.inflate(inflater, container, false)

@@ -6,6 +6,7 @@ import { navigate } from "ionicons/icons";
 import AlamoAlert from "./AlamoAlert";
 import { PermissionsStatus } from "../models/permissionsStatus";
 import { useGeolocation } from "../hooks/useGeolocation";
+import { AlamoApp } from "../plugins/AlamoApp";
 
 const UseCurrentLocationButton = (): JSX.Element => {
   const {
@@ -17,7 +18,9 @@ const UseCurrentLocationButton = (): JSX.Element => {
   } = useGeolocation();
   const [showToast] = useIonToast();
   const [isConfirmationAlertOpen, setConfirmationAlertOpen] = useState(false);
+  const [isSettingsAlertOpen, setSettingsAlertOpen] = useState(false);
   const [initLocationFlow, setInitLocationFlow] = useState(false);
+  const [wasButtonClicked, setWasButtonClicked] = useState(false);
 
   const displayToast = useCallback(
     (mess: string) => {
@@ -31,8 +34,14 @@ const UseCurrentLocationButton = (): JSX.Element => {
   );
   const handleCurrentLocation = () => {
     setInitLocationFlow(true);
-    checkPermissions();
+    setWasButtonClicked(true);
+    requestPermissions();
+    // checkPermissions();
   };
+  useEffect(() => {
+    checkPermissions();
+    console.log("check permission in useEffect ");
+  }, [checkPermissions]);
 
   /**
    * @param {boolean} initLocationFlow  is a state variable used to control the initiation of
@@ -41,38 +50,38 @@ const UseCurrentLocationButton = (): JSX.Element => {
    **/
   useEffect(() => {
     if (permissionStatus) {
-      switch (permissionStatus) {
-        case PermissionsStatus.Prompt:
-          if (initLocationFlow) {
+      console.log("permission status is ", permissionStatus);
+      if (wasButtonClicked) {
+        switch (permissionStatus) {
+          case PermissionsStatus.Prompt:
+            // if (initLocationFlow) {
+            //   requestPermissions();
+            //   setInitLocationFlow(false);
+            // }
             requestPermissions();
-            setInitLocationFlow(false);
-          }
-          break;
-        case PermissionsStatus.PromptWithRationale:
-          if (initLocationFlow) {
+            break;
+          case PermissionsStatus.PromptWithRationale:
+            // if (initLocationFlow) {
+            //   setConfirmationAlertOpen(true);
+            //   setInitLocationFlow(false);
+            // }
             setConfirmationAlertOpen(true);
+            break;
+          case PermissionsStatus.Granted:
+            getCurrentPosition();
+            break;
+          case PermissionsStatus.Denied:
+            // if (initLocationFlow) {
+            //   setSettingsAlertOpen(true);
+            //   setInitLocationFlow(false);
+            // }
+            setSettingsAlertOpen(true);
             setInitLocationFlow(false);
-          }
-          break;
-        case PermissionsStatus.Granted:
-          getCurrentPosition();
-          break;
-        case PermissionsStatus.Denied:
-          if (initLocationFlow) {
-            displayToast("Location permissions denied.");
-            setInitLocationFlow(false);
-          }
-          break;
+            break;
+        }
       }
     }
-  }, [
-    permissionStatus,
-    isConfirmationAlertOpen,
-    initLocationFlow,
-    requestPermissions,
-    getCurrentPosition,
-    displayToast,
-  ]);
+  }, [permissionStatus, requestPermissions, getCurrentPosition,wasButtonClicked]);
   useEffect(() => {
     console.log("location in small component", location?.coords.latitude);
   }, [location]);
@@ -94,6 +103,20 @@ const UseCurrentLocationButton = (): JSX.Element => {
         }}
         negativeButtonListener={() => {
           setConfirmationAlertOpen(false);
+        }}
+      />
+      <AlamoAlert
+        className="adc-confirmation-alert"
+        isOpen={isSettingsAlertOpen}
+        message="Open app seetings."
+        positiveText="Accept"
+        negativeText="Decline"
+        positiveButtonListener={() => {
+          setSettingsAlertOpen(false);
+          AlamoApp.openSettings();
+        }}
+        negativeButtonListener={() => {
+          setSettingsAlertOpen(false);
         }}
       />
     </>

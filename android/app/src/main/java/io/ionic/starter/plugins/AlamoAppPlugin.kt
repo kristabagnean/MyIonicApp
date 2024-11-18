@@ -1,4 +1,4 @@
-package com.alamodrafthouse.capacitorPlugins
+package io.ionic.starter.plugins
 
 import android.content.Intent
 import android.net.Uri

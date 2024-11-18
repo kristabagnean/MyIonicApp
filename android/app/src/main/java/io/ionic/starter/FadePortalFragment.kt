@@ -61,7 +61,7 @@ class FadePortalFragment: PortalFragment() {
 
     fun setColorResource(colorResource: Int) {
         this.colorResource = colorResource
-        fadeView!!.setBackgroundResource(this.colorResource)
+        fadeView.setBackgroundResource(this.colorResource)
     }
 
     companion object {

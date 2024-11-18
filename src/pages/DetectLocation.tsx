@@ -9,6 +9,7 @@ import {
   useIonAlert,
   IonButton,
   useIonToast,
+  useIonRouter,
 } from "@ionic/react";
 import Header from "../common/components/Header";
 import { publishItemSelect, publishNavigateBackMessage } from "../pub-sub";
@@ -23,6 +24,7 @@ import { registerPlugin } from "@capacitor/core";
 import { App } from "@capacitor/app";
 import UseCurrentLocationButton from "../common/components/UseCurrentLocationButton";
 import { useGeolocation } from "../common/hooks/useGeolocation";
+import { AlamoApp } from "../common/plugins/AlamoApp";
 const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>(
   "BackgroundGeolocation"
 );
@@ -30,6 +32,7 @@ const BackgroundGeolocation = registerPlugin<BackgroundGeolocationPlugin>(
 const DetectLocation = () => {
   const [present] = useIonToast();
   const { location } = useGeolocation();
+  const router = useIonRouter();
   //const [nearest, setNearest] = useState<NearestMarket>();
   // const closestMarket = useGetNearestMarket(location);
 
@@ -42,18 +45,28 @@ const DetectLocation = () => {
       position: "middle",
     });
   };
-  // App.addEventListener('ionBackButton', (ev: CustomEvent) => {
-  //   ev.detail.register(10, () => {
-  //     console.log('Handler was called!');
-  //   });
-  //});
-  App.addListener("backButton", (ev) => {
-    if (!ev.canGoBack) {
-      App.removeAllListeners();
+  const getGeolocationPermission = async () => {
+    const permissions = await Geolocation.checkPermissions();
+    console.log(" in the screen permissions status is ", permissions.coarseLocation);
+  };
+  AlamoApp.addListener('backButton', () => {
+    if (router.canGoBack()) {
+      router.goBack();
+    } else {
       publishNavigateBackMessage();
     }
-    console.log("back button clicked and can go back", ev.canGoBack);
   });
+  AlamoApp.addListener('pause', () => {
+    console.log('App paused');
+    AlamoApp.unsetBackButtonListeners();
+  });
+  AlamoApp.addListener('resume', () => {
+    console.log('App resume');
+    AlamoApp.attachBackButtonListener();
+    getGeolocationPermission();
+  });
+
+
   useEffect(() => {
     App.getInfo().then((info) => {
       console.log("App Info:", info.version);

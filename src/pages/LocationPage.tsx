@@ -3,7 +3,7 @@ import Header from "../common/components/Header";
 import { publishItemSelect, publishNavigateBackMessage } from "../pub-sub";
 import { useGetMarkets } from "../common/api/useGetMarkets";
 import { MarketStatus } from "../common/models/market";
-
+import "./LocationPage.css";
 const LocationPage = () => {
   const { data: markets = [], isLoading, error } = useGetMarkets();
   
@@ -15,10 +15,10 @@ const LocationPage = () => {
         onClickListener={publishNavigateBackMessage}
         defaultHref="/tabs"
       />
-      <IonContent fullscreen>
+      <IonContent fullscreen >
         <IonList lines="full">
           {markets.map((location, i) => (
-            <IonItem
+            <IonItem className="item-background-color"
               onClick={() => publishItemSelect(location)}
               key={location.id}
                  disabled={location.status !== MarketStatus.Open}
